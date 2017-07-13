@@ -9,6 +9,9 @@ import java.util.List;
 public class Model {
     private static final int FIELD_WIDTH = 4;
     private Tile [][] gameTiles;
+    protected int score=0;
+    protected int maxTile=2;
+
 
     public Model() {
         resetGameTiles();
@@ -38,5 +41,30 @@ public class Model {
         }
         addTile();
         addTile();
+    }
+
+    private void compressTiles(Tile[] tiles){
+        for (int i=0;i<tiles.length-1;i++){
+            if (tiles[i].value==0&&tiles[i+1].value!=0){
+                int temp;
+                temp=tiles[i].value;
+                tiles[i].value=tiles[i+1].value;
+                tiles[i+1].value=temp;
+                i=-1;
+            }
+        }
+    }
+    private void mergeTiles(Tile[] tiles){
+        for (int i=0;i<tiles.length-1;i++){
+            if (tiles[i].value==tiles[i+1].value){
+                    tiles[i].value = tiles[i].value + tiles[i + 1].value;
+                    tiles[i+1].value=0;
+                    if (tiles[i].value>maxTile){
+                        maxTile=tiles[i].value;
+                    }
+                    score+=tiles[i].value;
+            }
+        }
+        compressTiles(tiles);
     }
 }
