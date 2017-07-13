@@ -29,8 +29,10 @@ public class Model {
 
     }
     private void addTile(){
-        int randomNumber = (int) (getEmptyTiles().size()* Math.random());
-        getEmptyTiles().get(randomNumber).value=(Math.random()<0.9?2:4);
+        List list = getEmptyTiles();
+        if (list!=null&&list.size()!=0){
+        int randomNumber = (int) (list.size()* Math.random());
+        getEmptyTiles().get(randomNumber).value=(Math.random()<0.9?2:4);}
     }
     protected void resetGameTiles(){
         gameTiles=new Tile[FIELD_WIDTH][FIELD_WIDTH];
@@ -43,28 +45,45 @@ public class Model {
         addTile();
     }
 
-    private void compressTiles(Tile[] tiles){
+    private boolean compressTiles(Tile[] tiles){
+        boolean isChanged=false;
         for (int i=0;i<tiles.length-1;i++){
             if (tiles[i].value==0&&tiles[i+1].value!=0){
                 int temp;
                 temp=tiles[i].value;
                 tiles[i].value=tiles[i+1].value;
                 tiles[i+1].value=temp;
+                isChanged=true;
                 i=-1;
             }
         }
+        return isChanged;
     }
-    private void mergeTiles(Tile[] tiles){
+    private boolean mergeTiles(Tile[] tiles){
+        boolean isChanged=false;
         for (int i=0;i<tiles.length-1;i++){
-            if (tiles[i].value==tiles[i+1].value){
+            if (tiles[i].value==tiles[i+1].value&&tiles[i].value!=0){
                     tiles[i].value = tiles[i].value + tiles[i + 1].value;
                     tiles[i+1].value=0;
                     if (tiles[i].value>maxTile){
                         maxTile=tiles[i].value;
                     }
                     score+=tiles[i].value;
+                isChanged=true;
             }
         }
         compressTiles(tiles);
+        return isChanged;
+    }
+    public void left(){
+        boolean isCompressed=false;
+        boolean isMerged=false;
+        for (int i=0;i<gameTiles.length;i++){
+            isCompressed=compressTiles(gameTiles[i]);
+            isMerged=mergeTiles(gameTiles[i]);
+        }
+        if (isCompressed==true||isMerged==true){
+            addTile();
+        }
     }
 }
