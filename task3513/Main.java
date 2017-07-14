@@ -5,29 +5,56 @@ package com.javarush.task.task35.task3513;
  */
 public class Main {
     public static void main(String[] args) {
-//        Model model = new Model();
-//        Tile [] array = new Tile[4];
-//        array[0]=new Tile(2);
-//        array[1]=new Tile(0);
-//        array[2]=new Tile(2);
-//        array[3]=new Tile(0);
-//        for (int i=0;i<array.length;i++){
-//            System.out.print(array[i].value+" ");
-//        }
-//        System.out.println();
-//        System.out.println("------------after method----------");
-//        boolean hm=model.compressTiles(array);
-//        for (int i=0;i<array.length;i++){
-//            System.out.print(array[i].value+" ");
-//        }
-//        System.out.println("hm="+hm);
-//        System.out.println();
-//        System.out.println("------------after method----------");
-//        boolean hm2=model.mergeTiles(array);
-//        for (int i=0;i<array.length;i++){
-//            System.out.print(array[i].value+" ");
-//        }
-//        System.out.println("hm2="+hm2);
+        Model model = new Model();
+        Tile[][] tiles = model.getGameTiles();
+        System.out.println("---------------before-------------------");
+        for (int i=0;i<tiles.length;i++){
+            for (int j=0;j<tiles[0].length;j++){
+                System.out.print(tiles[i][j].value+" ");
+            }
+            System.out.println();
+        }
+        model.left();
+        System.out.println("---------------left-------------------");
+        for (int i=0;i<tiles.length;i++){
+            for (int j=0;j<tiles[0].length;j++){
+                System.out.print(tiles[i][j].value+" ");
+            }
+            System.out.println();
+        }
+        model.left();
+        System.out.println("---------------left-------------------");
+        for (int i=0;i<tiles.length;i++){
+            for (int j=0;j<tiles[0].length;j++){
+                System.out.print(tiles[i][j].value+" ");
+            }
+            System.out.println();
+        }
+        System.out.println("---------------up-------------------");
+        model.up();
+        for (int i=0;i<tiles.length;i++){
+            for (int j=0;j<tiles[0].length;j++){
+                System.out.print(tiles[i][j].value+" ");
+            }
+            System.out.println();
+        }
+        System.out.println("---------------right-------------------");
+        model.right();
+        for (int i=0;i<tiles.length;i++){
+            for (int j=0;j<tiles[0].length;j++){
+                System.out.print(tiles[i][j].value+" ");
+            }
+            System.out.println();
+        }
+        System.out.println("---------------down-------------------");
+        model.down();
+        for (int i=0;i<tiles.length;i++){
+            for (int j=0;j<tiles[0].length;j++){
+                System.out.print(tiles[i][j].value+" ");
+            }
+            System.out.println();
+        }
+
 
 
     }

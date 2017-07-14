@@ -9,6 +9,11 @@ import java.util.List;
 public class Model {
     private static final int FIELD_WIDTH = 4;
     private Tile [][] gameTiles;
+
+    public Tile[][] getGameTiles() {
+        return gameTiles;
+    }
+
     protected int score=0;
     protected int maxTile=2;
 
@@ -47,16 +52,18 @@ public class Model {
 
     private boolean compressTiles(Tile[] tiles){
         boolean isChanged=false;
+        int number = 0;
         for (int i=0;i<tiles.length-1;i++){
             if (tiles[i].value==0&&tiles[i+1].value!=0){
+                isChanged=true;
                 int temp;
                 temp=tiles[i].value;
                 tiles[i].value=tiles[i+1].value;
                 tiles[i+1].value=temp;
-                isChanged=true;
                 i=-1;
             }
         }
+
         return isChanged;
     }
     private boolean mergeTiles(Tile[] tiles){
@@ -78,12 +85,55 @@ public class Model {
     public void left(){
         boolean isCompressed=false;
         boolean isMerged=false;
+        int counter=0;
         for (int i=0;i<gameTiles.length;i++){
             isCompressed=compressTiles(gameTiles[i]);
             isMerged=mergeTiles(gameTiles[i]);
+            if (isCompressed||isMerged){
+                counter++;
+            }
         }
-        if (isCompressed==true||isMerged==true){
+        if (counter>0){
             addTile();
         }
+    }
+    private void rotateCW(Tile[][] matrix) {
+        int len = matrix.length;
+        Tile temp = null;
+        for(int i = 0; i < len; i++){
+            for(int j = 0; j < len - 1 - i ; j++){
+                temp = matrix[i][j];
+                matrix[i][j] = matrix[len -1 - j][len-1-i];
+                matrix[len -1 - j][len-1-i] = temp;
+            }
+        }
+        for(int i = 0; i < len/2; i++){
+            for(int j = 0;j < len; j++){
+                temp = matrix[i][j];
+                matrix[i][j] = matrix[len-1 -i][j];
+                matrix[len -1 -i][j] = temp;
+            }
+        }
+    }
+    public void up(){
+        rotateCW(gameTiles);
+        rotateCW(gameTiles);
+        rotateCW(gameTiles);
+        left();
+        rotateCW(gameTiles);
+    }
+    public void right(){
+        rotateCW(gameTiles);
+        rotateCW(gameTiles);
+        left();
+        rotateCW(gameTiles);
+        rotateCW(gameTiles);
+    }
+    public void down(){
+        rotateCW(gameTiles);
+        left();
+        rotateCW(gameTiles);
+        rotateCW(gameTiles);
+        rotateCW(gameTiles);
     }
 }
