@@ -2,6 +2,7 @@ package com.javarush.task.task35.task3513;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by AMalakhov on 12.07.2017.
@@ -16,6 +17,9 @@ public class Model {
 
     protected int score=0;
     protected int maxTile=2;
+    private Stack previousStates = new Stack();
+    private Stack previousScores = new Stack();
+    private boolean isSaveNeeded = true;
 
     public int getScore() {
         return score;
@@ -158,5 +162,24 @@ public class Model {
         rotateCW(gameTiles);
         rotateCW(gameTiles);
         rotateCW(gameTiles);
+    }
+
+    private void saveState(Tile[][] tiles){
+        Tile[][] savedTiles = new Tile[gameTiles.length][gameTiles[0].length];
+        for (int i=0;i<savedTiles.length;i++){
+            for (int j=0;j<savedTiles[0].length;j++){
+                savedTiles[i][j]=new Tile(gameTiles[i][j].value);
+            }
+        }
+        previousStates.push(savedTiles);
+        previousScores.push(score);
+        isSaveNeeded=false;
+    }
+
+    public void rollback(){
+        if (!previousStates.isEmpty()&&!previousScores.isEmpty()) {
+            gameTiles = (Tile[][]) previousStates.pop();
+            score = (int) previousScores.pop();
+        }
     }
 }
