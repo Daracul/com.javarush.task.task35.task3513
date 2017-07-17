@@ -1,6 +1,7 @@
 package com.javarush.task.task35.task3513;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -202,4 +203,31 @@ public class Model {
                 break;
         }
     }
+    public boolean hasBoardChanged (){
+        int sum1=0;
+        int sum2=0;
+        if (!previousStates.isEmpty()){
+        Tile[][] previouseGameTiles = (Tile[][]) previousStates.pop();
+        for (int i=0;i<gameTiles.length;i++){
+            for (int j=0;j<gameTiles[0].length;j++){
+               sum1+=previouseGameTiles[i][j].value;
+                sum2+=gameTiles[i][j].value;
+            }
+        }}
+        return sum1!=sum2;
+
+    }
+
+    public MoveEfficiency getMoveEfficiency(Move move) {
+       MoveEfficiency moveEfficiency;
+        if (hasBoardChanged()){
+            moveEfficiency=new MoveEfficiency(getEmptyTiles().size(),score,move);
+        }
+        else {
+            moveEfficiency=new MoveEfficiency(-1,0,move);
+        }
+        rollback();
+        return moveEfficiency;
+    }
+
 }
