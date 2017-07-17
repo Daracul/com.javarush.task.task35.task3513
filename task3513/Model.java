@@ -109,6 +109,9 @@ public class Model {
         return false;
     }
     public void left(){
+        if (isSaveNeeded){
+            saveState(gameTiles);
+        }
         boolean isCompressed=false;
         boolean isMerged=false;
         int counter=0;
@@ -122,6 +125,7 @@ public class Model {
         if (counter>0){
             addTile();
         }
+        isSaveNeeded=true;
     }
 
     private void rotateCW(Tile[][] matrix) {
@@ -143,6 +147,7 @@ public class Model {
         }
     }
     public void up(){
+        saveState(gameTiles);
         rotateCW(gameTiles);
         rotateCW(gameTiles);
         rotateCW(gameTiles);
@@ -150,6 +155,7 @@ public class Model {
         rotateCW(gameTiles);
     }
     public void right(){
+        saveState(gameTiles);
         rotateCW(gameTiles);
         rotateCW(gameTiles);
         left();
@@ -157,6 +163,7 @@ public class Model {
         rotateCW(gameTiles);
     }
     public void down(){
+        saveState(gameTiles);
         rotateCW(gameTiles);
         left();
         rotateCW(gameTiles);

@@ -52,6 +52,8 @@ public class Controller extends KeyAdapter {
                     break;
                 case KeyEvent.VK_DOWN:model.down();
                     break;
+                case KeyEvent.VK_Z:model.rollback();
+                    break;
             }
         }
         if (model.maxTile==WINNING_TILE){
