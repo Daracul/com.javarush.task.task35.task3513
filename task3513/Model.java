@@ -1,9 +1,6 @@
 package com.javarush.task.task35.task3513;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by AMalakhov on 12.07.2017.
@@ -207,7 +204,7 @@ public class Model {
         int sum1=0;
         int sum2=0;
         if (!previousStates.isEmpty()){
-        Tile[][] previouseGameTiles = (Tile[][]) previousStates.pop();
+        Tile[][] previouseGameTiles = (Tile[][]) previousStates.peek();
         for (int i=0;i<gameTiles.length;i++){
             for (int j=0;j<gameTiles[0].length;j++){
                sum1+=previouseGameTiles[i][j].value;
@@ -228,6 +225,36 @@ public class Model {
         }
         rollback();
         return moveEfficiency;
+    }
+
+    public void autoMove(){
+         PriorityQueue<MoveEfficiency> priorityQueue = new PriorityQueue(4,Collections.reverseOrder());
+        priorityQueue.add(getMoveEfficiency(new Move() {
+            @Override
+            public void move() {
+                left();
+            }
+        }));
+        priorityQueue.add(getMoveEfficiency(new Move() {
+            @Override
+            public void move() {
+                right();
+            }
+        }));
+        priorityQueue.add(getMoveEfficiency(new Move() {
+            @Override
+            public void move() {
+                up();
+            }
+        }));
+        priorityQueue.add(getMoveEfficiency(new Move() {
+            @Override
+            public void move() {
+                down();
+            }
+        }));
+
+        priorityQueue.poll().getMove().move();
     }
 
 }
