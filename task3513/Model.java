@@ -217,6 +217,7 @@ public class Model {
 
     public MoveEfficiency getMoveEfficiency(Move move) {
        MoveEfficiency moveEfficiency;
+        move.move();
         if (hasBoardChanged()){
             moveEfficiency=new MoveEfficiency(getEmptyTiles().size(),score,move);
         }
